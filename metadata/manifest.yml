@@ -1,7 +1,7 @@
 Name: httpd
 Cartridge-Short-Name: HTTPD
 Display-Name: HTTPD Cartridge
-Source-Url: https://github.com/airside360/mapper.git
+Source-Url: https://github.com/airside360/openshift-httpd-cartridge/archive/master.zip
 Description: "A httpd cartridge for development use only."
 Version: '0.1'
 License: "None"
