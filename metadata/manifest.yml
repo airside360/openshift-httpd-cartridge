@@ -4,15 +4,15 @@ Cartridge-Short-Name: MOCK
 Display-Name: Mock Cartridge 0.1
 Description: A mock cartridge for development use only.
 Version: '0.1'
+Vendor: Red Hat
 Versions:
 - '0.1'
 - '0.2'
 - '0.3'
 - '0.4'
-License: ASL 2.0
-Vendor: Airside 360
+Source-Url: https://github.com/airside360/mapper/archive/master.zip
 Cartridge-Version: 0.0.1
-Cartridge-Vendor: airside360
+Cartridge-Vendor: airside
 Categories:
 - service
 - mock
