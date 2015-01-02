@@ -1,38 +1,29 @@
 #!/bin/bash -eu
+PATH=/bin/:/usr/bin:$PATH
 
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
-source $OPENSHIFT_MOCK_DIR/mock.conf
 
 function start {
-  echo "Starting Mock cartridge"
-  touch $MOCK_STATE/control_start
-  touch $MOCK_STATE/mock_process
-  oo-ruby $OPENSHIFT_MOCK_DIR/bin/mock_server.rb $OPENSHIFT_MOCK_EXAMPLE_IP1 $OPENSHIFT_REPO_DIR > $OPENSHIFT_MOCK_DIR/logs/server.log 2>&1 &
+  echo "Starting httpd"
+  /usr/sbin/httpd -f $OPENSHIFT_HTTPD_DIR/etc/httpd.conf -k start
 }
 
 function stop {
-  echo "Stopping Mock cartridge"
-  touch $MOCK_STATE/control_stop
-  rm -f $MOCK_STATE/mock_process
-  pkill -9 -f mock_server.rb ||:
+  echo "Stopping httpd"
+  /usr/sbin/httpd -f $OPENSHIFT_HTTPD_DIR/etc/httpd.conf -k stop
 }
 
 function restart {
-  touch $MOCK_STATE/control_restart
-  stop
-  start
+  echo "Restarting httpd"
+  /usr/sbin/httpd -f $OPENSHIFT_HTTPD_DIR/etc/httpd.conf -k restart
 }
 
 function status {
-  client_result "This is client status output from the mock cartridge"
-  touch $MOCK_STATE/control_status
-  [ -f $MOCK_STATE/mock_process ]
+  /usr/sbin/httpd -f $OPENSHIFT_HTTPD_DIR/etc/httpd.conf -k status
 }
 
-function build {
-  echo "Building Mock cartridge"
-  touch $MOCK_STATE/control_build
-  echo "Mock successfully built."
+function catchall {
+    echo "not yet implemented"
 }
 
 case "$1" in
@@ -40,18 +31,12 @@ case "$1" in
   stop)                 stop ;;
   restart)              restart ;;
   status)               status ;;
-  reload)               touch $MOCK_STATE/control_reload ;;
-  tidy)                 touch $MOCK_STATE/control_tidy ;;
-  pre-build)            touch $MOCK_STATE/control_pre_build ;;
-  build)                build ;;
-  deploy)               touch $MOCK_STATE/control_deploy ;;
-  post-deploy)          touch $MOCK_STATE/control_post_deploy ;;
-  pre-snapshot)         touch $MOCK_STATE/control_pre_snapshot ;;
-  post-snapshot)        touch $MOCK_STATE/control_post_snapshot ;;
-  pre-restore)          touch $MOCK_STATE/control_pre_restore ;;
-  post-restore)         touch $MOCK_STATE/control_post_restore ;;
-  pre-repo-archive)     touch $MOCK_STATE/control_pre_repo_archive ;;
-  update-configuration) touch $MOCK_STATE/control_update_configuration ;;
+  reload)               catchall ;;
+  tidy)                 catchall ;;
+  pre-build)            catchall ;;
+  build)                catchall ;;
+  deploy)               catchall ;;
+  post-deploy)          catchall ;;
   *)           exit 0
 esac
 
